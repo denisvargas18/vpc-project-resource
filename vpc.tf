@@ -4,7 +4,7 @@ resource "aws_vpc" "terra_vpc" {
     instance_tenancy = "${var.tenancy}"
     enable_dns_hostnames = true
     enable_dns_support = true
-    tags = "${var.test}" #Using variable root
+    tags = "${var.tags_secondary}" #Using variable root
 
     #tags = { Using local
     #    Name = "vpc-source-${var.environment}-${substr(uuid(), 1,10)}"
@@ -19,10 +19,17 @@ resource "aws_vpc" "terra_vpc" {
 resource "aws_internet_gateway" "terra_igw" {
     vpc_id = "${aws_vpc.terra_vpc.id}" #se commitea para trabajar con module
     #tags = "${var.tags}"
-    tags = {
-        Name = "igw-source-${var.environment}-${substr(uuid(), 1,10)}"
-        Region = "${var.aws_region}"
-    }
+    #tags = {
+    #    Name = "igw-source-${var.environment}-${substr(uuid(), 1,10)}"
+    #    Region = "${var.aws_region}"
+    #}
+    tags = merge(
+        "${var.global_tags}",
+        {
+            Name = "igw-source-${var.environment}-${substr(uuid(), 1,10)}"
+            Region = "${var.aws_region}"
+        }
+    )
     depends_on = [aws_vpc.terra_vpc]
 }
 

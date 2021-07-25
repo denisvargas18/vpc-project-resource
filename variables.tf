@@ -1,8 +1,13 @@
-variable "test" {
+variable "tags_secondary" {
   type = map
   default = {}
-  
 }
+
+variable "global_tags" {
+  type = map
+  default = {}
+}
+
 variable "vpc_cidr" {
     description = "Valor de CIDR Segmento de Red de VPC."
     type = string

@@ -129,7 +129,7 @@ resource "aws_route_table_association" "as_rbt_pub" {
 resource "aws_route_table_association" "as_rbt_prv" {
     count = "${length(var.subnet_cidr_prv)}"
     subnet_id = "${element(aws_subnet.subnet_private.*.id, count.index)}"
-    route_table_id = "${element(aws_route_table.rbt_private.*.id, count.index)}"
+    route_table_id = "${element(aws_route_table.rbt_private.id, count.index)}"
 }
 
 # Default security to vpc eggress / ingress
